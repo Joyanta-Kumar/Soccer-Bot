@@ -1,6 +1,9 @@
 // Change the pins according to your bot.
-int leftMotorPins[2] = { 2, 3 };
-int rightMotorPins[2] = { 4, 5 };
+int leftMotorPins[2] = { 2, 3 };    // At least one of the pin must support PWM.
+int rightMotorPins[2] = { 4, 5 };   // At least one of the pin must support PWM.
+// The function of movements are defined in a way that motorPins[1] supports PWM.
+
+int speed = 255;
 
 
 void setPinMode() {
@@ -14,10 +17,10 @@ void setPinMode() {
 void forward() {
     // Left forward.
     digitalWrite(leftMotorPins[0], 0);
-    digitalWrite(leftMotorPins[1], 1);
+    analogWrite(leftMotorPins[1], speed);
     // Right forward.
     digitalWrite(rightMotorPins[0], 0);
-    digitalWrite(rightMotorPins[1], 1);
+    analogWrite(rightMotorPins[1], speed);
     Serial.println("Forward.");
 }
 
@@ -27,14 +30,14 @@ void forwardLeft() {
     digitalWrite(leftMotorPins[1], 0);
     // Right forward.
     digitalWrite(rightMotorPins[0], 0);
-    digitalWrite(rightMotorPins[1], 1);
+    analogWrite(rightMotorPins[1], speed);
     Serial.println("Forward Left.");
 }
 
 void forwardRight() {
     // Left forward.
     digitalWrite(leftMotorPins[0], 0);
-    digitalWrite(leftMotorPins[1], 1);
+    analogWrite(leftMotorPins[1], speed);
     // Right stop.
     digitalWrite(rightMotorPins[0], 0);
     digitalWrite(rightMotorPins[1], 0);
@@ -44,10 +47,10 @@ void forwardRight() {
 void backward() {
     // Left backward.
     digitalWrite(leftMotorPins[0], 1);
-    digitalWrite(leftMotorPins[1], 0);
+    analogWrite(leftMotorPins[1], (255 - speed));
     // Right backward.
     digitalWrite(rightMotorPins[0], 1);
-    digitalWrite(rightMotorPins[1], 0);
+    analogWrite(rightMotorPins[1], (255 - speed));
     Serial.println("Backward.");
 }
 
@@ -57,14 +60,14 @@ void backwardLeft() {
     digitalWrite(leftMotorPins[1], 0);
     // Right backward.
     digitalWrite(rightMotorPins[0], 1);
-    digitalWrite(rightMotorPins[1], 0);
+    analogWrite(rightMotorPins[1], (255 - speed));
     Serial.println("Backward Left.");
 }
 
 void backwardRight() {
     // Left backward.
     digitalWrite(leftMotorPins[0], 1);
-    digitalWrite(leftMotorPins[1], 0);
+    analogWrite(leftMotorPins[1], (255 - speed));
     // Right stop.
     digitalWrite(rightMotorPins[0], 0);
     digitalWrite(rightMotorPins[1], 0);
@@ -74,20 +77,20 @@ void backwardRight() {
 void spinLeft() {
     // Left backward.
     digitalWrite(leftMotorPins[0], 1);
-    digitalWrite(leftMotorPins[1], 0);
+    analogWrite(leftMotorPins[1], (255 - speed));
     // Right forward.
     digitalWrite(rightMotorPins[0], 0);
-    digitalWrite(rightMotorPins[1], 1);
+    analogWrite(rightMotorPins[1], speed);
     Serial.println("Spin Left.");
 }
 
 void spinRight() {
     // Left forward.
     digitalWrite(leftMotorPins[0], 0);
-    digitalWrite(leftMotorPins[1], 1);
+    analogWrite(leftMotorPins[1], speed);
     // Right backward.
     digitalWrite(rightMotorPins[0], 1);
-    digitalWrite(rightMotorPins[1], 0);
+    analogWrite(rightMotorPins[1], (255 - speed));
     Serial.println("Spin Right.");
 }
 
@@ -120,6 +123,18 @@ void loop() {
         case 'e': forwardRight(); break;
         case 'z': backwardLeft(); break;
         case 'c': backwardRight(); break;
+
+        // Change speed
+        case 10: speed = 10;
+        case 20: speed = 20;
+        case 30: speed = 30;
+        case 40: speed = 40;
+        case 50: speed = 50;
+        case 60: speed = 60;
+        case 70: speed = 70;
+        case 80: speed = 80;
+        case 90: speed = 90;
+
         default: stop();
         }
     }
